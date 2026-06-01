@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ "main", "master" ]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true # Schaltet die nervige Node-Warnung für 2026 ab
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,14 +23,8 @@ jobs:
         distribution: 'temurin'
         java-version: '21'
 
-    - name: Gradle-Ausführungsrechte vergeben
-      run: chmod +x gradlew
+    - name: Gradle automatisch installieren (Weil der Wrapper im Repo fehlt)
+      uses: gradle/actions/setup-gradle@v4
 
-    - name: Mod mit Gradle bauen
-      run: ./gradlew build
-
-    - name: Fertige JAR-Datei als Download bereitstellen
-      uses: actions/upload-artifact@v4
-      with:
-        name: CraftTracker-Mod
-        path: build/libs/*.jar
+    - name: Mod ohne lokalen Wrapper bauen
+      run: gradle build
