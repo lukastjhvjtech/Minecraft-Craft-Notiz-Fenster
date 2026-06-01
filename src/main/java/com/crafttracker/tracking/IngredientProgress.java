@@ -1,31 +1,32 @@
 package com.crafttracker.tracking;
 
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.ItemStack;
 
 public class IngredientProgress {
-    private final Ingredient ingredient;
-    private final int needed;
+    private final IngredientNeed need;
     private final int available;
 
-    public IngredientProgress(Ingredient ingredient, int needed, int available) {
-        this.ingredient = ingredient;
-        this.needed = needed;
+    public IngredientProgress(IngredientNeed need, int available) {
+        this.need = need;
         this.available = available;
     }
 
-    public Ingredient getIngredient() {
-        return this.ingredient;
-    }
-
-    public int getNeeded() {
-        return this.needed;
+    // Ermöglicht RecipeTrackerHud den Zugriff auf das IngredientNeed-Objekt (für depth, displayStack, etc.)
+    public IngredientNeed need() {
+        return this.need;
     }
 
     public int getAvailable() {
         return this.available;
     }
 
+    // Gibt den Text für die Statusanzeige im HUD zurück (z. B. "2 / 5")
+    public String statusText() {
+        int amountNeeded = this.need.amount(); // Holt die benötigte Anzahl aus IngredientNeed
+        return this.available + " / " + amountNeeded;
+    }
+
     public boolean isComplete() {
-        return this.available >= this.needed;
+        return this.available >= this.need.amount();
     }
 }
