@@ -43,7 +43,9 @@ public final class RecipeIngredientParser {
          Minecraft mc = Minecraft.getInstance();
          if (mc.level != null) {
             RecipeManager recipeManager = mc.level.getRecipeManager();
-            Optional<RecipeHolder<?>> recipeOpt = recipeManager.getRecipeFor(null, stack, mc.level);
+            Optional<RecipeHolder<?>> recipeOpt = recipeManager.getRecipes().stream()
+    .filter(holder -> holder.value().getResultItem(mc.level.registryAccess()).getItem() == stack.getItem())
+    .findFirst();
 
             if (recipeOpt.isPresent()) {
                Recipe<?> recipe = recipeOpt.get().value();
