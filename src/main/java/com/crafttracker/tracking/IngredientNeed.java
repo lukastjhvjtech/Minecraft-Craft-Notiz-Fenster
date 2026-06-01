@@ -1,24 +1,34 @@
 package com.crafttracker.tracking;
 
-import net.minecraft.world.item.ItemStack;
+public class IngredientProgress {
+    private final IngredientNeed need;
+    private int available;
 
-public record IngredientNeed(ItemStack template, int required, int depth) {
-   
-   public IngredientNeed(ItemStack template, int required) {
-      this(template, required, 0);
-   }
+    public IngredientProgress(IngredientNeed need) {
+        this.need = need;
+        this.available = 0;
+    }
 
-   public IngredientNeed(ItemStack template, int required, int depth) {
-      template = template.copy();
-      template.setCount(1);
-      this.template = template;
-      this.required = required;
-      this.depth = depth;
-   }
+    public IngredientNeed getNeed() {
+        return this.need;
+    }
 
-   public ItemStack displayStack() {
-      ItemStack stack = this.template.copy();
-      stack.setCount(Math.min(this.required, stack.getMaxStackSize()));
-      return stack;
-   }
+    public int getAvailable() {
+        return this.available;
+    }
+
+    public void setAvailable(int available) {
+        this.available = available;
+    }
+
+    public int getAmountNeeded() {
+        // Falls IngredientNeed ein Record oder eine public Variable ist, nutzt man: this.need.amount() bzw. this.need.amount
+        // Falls IngredientNeed eine normale Klasse mit Getter ist, nutzt man: this.need.getAmount()
+        // Wir nutzen hier die sicherste Variante für klassische Java-Klassen:
+        return this.need.getAmount(); 
+    }
+
+    public boolean isComplete() {
+        return this.available >= this.need.getAmount();
+    }
 }
