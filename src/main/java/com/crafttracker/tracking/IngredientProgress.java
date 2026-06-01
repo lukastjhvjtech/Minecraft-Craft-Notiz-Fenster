@@ -1,8 +1,10 @@
 package com.crafttracker.tracking;
 
-import net.minecraft.world.item.ItemStack;
-
+/**
+ * Kombiniert den Bedarf einer Zutat mit der aktuell verfügbaren Menge.
+ */
 public class IngredientProgress {
+
     private final IngredientNeed need;
     private final int available;
 
@@ -11,22 +13,25 @@ public class IngredientProgress {
         this.available = available;
     }
 
-    // Ermöglicht RecipeTrackerHud den Zugriff auf das IngredientNeed-Objekt (für depth, displayStack, etc.)
     public IngredientNeed need() {
         return this.need;
     }
 
-    public int getAvailable() {
+    public int available() {
         return this.available;
     }
 
-    // Gibt den Text für die Statusanzeige im HUD zurück (z. B. "2 / 5")
-    public String statusText() {
-        int amountNeeded = this.need.amount(); // Holt die benötigte Anzahl aus IngredientNeed
-        return this.available + " / " + amountNeeded;
+    /**
+     * Wie viele Einheiten noch fehlen (0 wenn ausreichend vorhanden).
+     */
+    public int missing() {
+        return Math.max(0, this.need.required() - this.available);
     }
 
-    public boolean isComplete() {
-        return this.available >= this.need.amount();
+    /**
+     * Ob die Zutat vollständig abgedeckt ist.
+     */
+    public boolean isSatisfied() {
+        return this.available >= this.need.required();
     }
 }
