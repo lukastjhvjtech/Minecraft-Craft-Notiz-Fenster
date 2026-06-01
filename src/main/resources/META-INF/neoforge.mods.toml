@@ -1,0 +1,10 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="MIT"
+
+[[mods]]
+modId="crafttracker"
+version="1.0.0"
+displayName="CraftTracker"
+authors="Lukas"
+description="Tracks deep Create mod recipes and provides a localhost server for external companion screens."
