@@ -7,7 +7,7 @@ on:
     branches: [ "main", "master" ]
 
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true # Schaltet die nervige Node-Warnung für 2026 ab
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
@@ -23,8 +23,10 @@ jobs:
         distribution: 'temurin'
         java-version: '21'
 
-    - name: Gradle automatisch installieren (Weil der Wrapper im Repo fehlt)
+    - name: Gradle installieren
       uses: gradle/actions/setup-gradle@v4
+      with:
+        validate-wrappers: false # WICHTIG: Überspringt die Suche nach dem fehlenden Wrapper
 
-    - name: Mod ohne lokalen Wrapper bauen
-      run: gradle build
+    - name: Mod kompilieren und bauen
+      run: gradle build --no-daemon
