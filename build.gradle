@@ -12,7 +12,7 @@ repositories {
 }
 
 neoForge {
-    version = '21.0.2' // Minecraft 1.21 NeoForge-Version
+    version = '21.1.15' // Minecraft 1.21 NeoForge-Version
 
     runs {
         client {
